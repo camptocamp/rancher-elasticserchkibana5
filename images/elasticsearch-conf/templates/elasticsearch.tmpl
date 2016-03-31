@@ -1,7 +1,37 @@
-#datanodei Placed by confd. Do not hand edit.
+
+{{range ls "/self/service/metadata/elasticsearch/yml"}}
+{{.}}: {{getv (printf "/self/service/metadata/elasticsearch/yml/%s" .)}}{{end}}
+
+discovery.zen.ping.unicast.hosts: {{range ls "/self/service/containers"}}{{ $containerName := getv (printf "/self/service/containers/%s" .)}}
+  - {{getv (printf "/containers/%s/primary_ip" $containerName)}}
+{{end}}
+
+cluster:
+  routing:
+    allocation:
+      disk:
+        threshold_enabled: true
+        watermark:
+          high: 10gb
+          low: 3gb
 
 bootstrap.mlockall: true
-discovery.zen.ping.multicast.enabled: false
-network.host: 0.0.0.0
+http: 
+  cors: 
+    enabled: true
+  host: 0.0.0.0
+index: 
+  merge: 
+    policy: 
+      use_compound_file: false
+  number_of_replicas: 1
+  number_of_shards: 6
+  refresh_interval: 60s
+  translog: 
+    flush_threshold_ops: 60000
+network: 
+  host: 0.0.0.0
+node: 
+  data: true
+  master: true
 
-cluster.name: {{getenv "cluster_name"}}

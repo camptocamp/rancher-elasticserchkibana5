@@ -1,10 +1,24 @@
+.catalog:
+  name: "Elasticsearch2Kibana"
+  description: "Simple Elasticsearch2-Kibana4 (all nodes are data+master)"
+  version: "0.5.4"
+  uuid: esk-0
+  questions:
+    - variable: cluster_name
+      label: "Cluster Name"
+      type: "string"
+      required: true
+    - variable: node_number
+      label: "Number of nodes (better if odd)"
+      type: "int"
+      default: 3
+
 elasticsearch:
-  scale: 3
-  # metadata:
-  #   elasticsearch:
-  #     yml:
-  #       cluster_name: "$${cluster_name}"
-  #       node.name: "$${HOSTNAME}"
+  scale: ${node_number}
+  metadata:
+    elasticsearch:
+      yml:
+        cluster.name: "${cluster_name}"
 
 kibana:
   scale: 1

@@ -1,10 +1,10 @@
 elasticsearch-conf:
-  image: camptocamp/elasticsearch-conf:0.5
+  image: camptocamp/elasticsearch-conf:0.5.4
   labels: 
     io.rancher.container.hostname_override: container_name
     io.rancher.container.start_once: 'true'
-  environment:
-    cluster_name: bqtestclustername
+#  environment:
+#    cluster_name: bqtestclustername
   volumes_from:
     - elasticsearch
 elasticsearch:
