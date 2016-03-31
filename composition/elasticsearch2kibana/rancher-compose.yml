@@ -1,0 +1,10 @@
+elasticsearch:
+  scale: 3
+  # metadata:
+  #   elasticsearch:
+  #     yml:
+  #       cluster_name: "$${cluster_name}"
+  #       node.name: "$${HOSTNAME}"
+
+kibana:
+  scale: 1
