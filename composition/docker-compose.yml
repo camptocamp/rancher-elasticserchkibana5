@@ -8,7 +8,7 @@ elasticsearch-conf:
   volumes_from:
     - elasticsearch
 elasticsearch:
-  image: elasticsearch:2.2
+  image: elasticsearch:2.3
   labels:
     io.rancher.container.hostname_override: container_name
     io.rancher.sidekicks: elasticsearch-conf
@@ -20,7 +20,7 @@ elasticsearch:
 
 # Kibana (no need for a conf as it can be configured through environment variables)
 kibana:
-  image: kibana:4.4
+  image: kibana:4.5
   ports:
     - 5601:5601
   links:
