@@ -6,6 +6,8 @@ discovery.zen.ping.unicast.hosts: {{range ls "/self/service/containers"}}{{ $con
   - {{getv (printf "/containers/%s/primary_ip" $containerName)}}
 {{end}}
 
+discovery.zen.minimum_master_nodes: 2
+
 cluster:
   routing:
     allocation:
