@@ -1,0 +1,27 @@
+events {
+  worker_connections  1024;
+}
+
+http {
+  server {
+    listen 9200;
+    auth_basic "Restricted";
+    auth_basic_user_file /etc/nginx/passwords;
+
+    location / {
+      proxy_pass {{getenv "ELASTICSEARCH_URL"}};
+      proxy_redirect off;
+    }
+  }   
+
+  server {
+    listen 5601;
+    auth_basic "Restricted";
+    auth_basic_user_file /etc/nginx/passwords;
+   
+    location / {
+      proxy_pass {{getenv "KIBANA_URL"}};
+      proxy_redirect off;
+    }
+  }
+}
