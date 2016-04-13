@@ -1,4 +1,3 @@
-
 {{range ls "/self/service/metadata/elasticsearch/yml"}}
 {{.}}: {{getv (printf "/self/service/metadata/elasticsearch/yml/%s" .)}}{{end}}
 
