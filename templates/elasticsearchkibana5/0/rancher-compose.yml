@@ -1,5 +1,5 @@
 .catalog:
-  name: "Elasticsearch2Kibana"
+  name: "elasticsearchkibana5"
   description: "Simple Elasticsearch5-Kibana4 (all nodes are data+master) with simple autho"
   version: "0.5.4"
   uuid: esk-0
