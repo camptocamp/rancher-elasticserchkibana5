@@ -1,26 +1,26 @@
-# Elasticsearch and its configuration container
 elasticsearch-conf:
-  image: camptocamp/elasticsearch-conf:0.0.2
+  image: camptocamp/elasticsearch-conf:0.0.1
   labels: 
     io.rancher.container.hostname_override: container_name
     io.rancher.container.start_once: 'true'
     io.rancher.container.pull_image: always
-  volumes:
-    - /usr/share/docker-elasticsearch/config
-    - /opt/rancher/bin
+#  environment:
+#    cluster_name: bqtestclustername
+  volumes_from:
+    - elasticsearch
 elasticsearch:
   image: camptocamp/elasticsearch:5.0.0-alpha
   labels:
     io.rancher.container.hostname_override: container_name
     io.rancher.sidekicks: elasticsearch-conf
+    io.rancher.container.pull_image: always
   ulmits:
     memlock: 
       soft: -1
       hard: -1
-  volumes_from:
-    - elasticsearch-conf
-  command: /opt/rancher/bin/run.sh
-
+  volumes:
+    - /usr/share/docker-elasticsearch/config
+  command: sh -c "mkdir /usr/share/docker-elasticsearch/config/scripts; while [ ! -f '/usr/share/docker-elasticsearch/config/elasticsearch.yml' ]; do sleep 2; done; exec /docker-entrypoint.sh elasticsearch -E es.path.conf=/usr/share/docker-elasticsearch/config/"
 
 # Kibana (no need for a conf as it can be configured through environment variables)
 kibana:
