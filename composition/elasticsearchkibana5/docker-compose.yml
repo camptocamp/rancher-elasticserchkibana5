@@ -3,6 +3,7 @@ elasticsearch-conf:
   labels: 
     io.rancher.container.hostname_override: container_name
     io.rancher.container.start_once: 'true'
+    io.rancher.container.pull_image: always
 #  environment:
 #    cluster_name: bqtestclustername
   volumes_from:
@@ -12,6 +13,7 @@ elasticsearch:
   labels:
     io.rancher.container.hostname_override: container_name
     io.rancher.sidekicks: elasticsearch-conf
+    io.rancher.container.pull_image: always
   volumes:
     - /usr/share/docker-elasticsearch/config
   command: sh -c "while [ ! -f '/usr/share/docker-elasticsearch/config/elasticsearch.yml' ]; do sleep 2; done; exec /docker-entrypoint.sh elasticsearch -E es.path.conf=/usr/share/docker-elasticsearch/config/"
@@ -30,6 +32,7 @@ nginx-conf:
   labels:
     io.rancher.container.hostname_override: container_name
     io.rancher.container.start_once: 'true'
+    io.rancher.container.pull_image: always
   environment:
     ELASTICSEARCH_URL: http://elasticsearch:9200
     KIBANA_URL: http://kibana:5601
