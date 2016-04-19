@@ -13,8 +13,8 @@ elasticsearch:
     io.rancher.container.hostname_override: container_name
     io.rancher.sidekicks: elasticsearch-conf
   volumes:
-    - /usr/share/elasticsearch/config
-    - /opt/rancher/bin
+    - /usr/share/docker-elasticsearch/config
+  command: sh -c "while [ ! -f '/usr/share/docker-elasticsearch/config/elasticsearch.yml' ]; do sleep 2; done; exec /docker-entrypoint.sh elasticsearch -E es.path.conf=/usr/share/docker-elasticsearch/config/"
 
 # Kibana (no need for a conf as it can be configured through environment variables)
 kibana:
@@ -48,4 +48,5 @@ nginx:
     - "5601:5601"
   volumes:
     - /etc/nginx
-    - /opt/rancher/bin
+  command: sh -c "while [ ! -f '/etc/nginx/docker-nginx.conf' ]; do sleep 2; done; exec nginx -c /etc/nginx/docker-nginx.conf -g 'daemon off;'"
+

@@ -1,6 +1,4 @@
 [template]
 src = "logging.tmpl"
-dest = "/usr/share/elasticsearch/config/logging.yml"
-keys = [
-  "/elasticsearch/log/",
-]
+dest = "/usr/share/docker-elasticsearch/config/logging.yml"
+
