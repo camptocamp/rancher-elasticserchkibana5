@@ -1,0 +1,59 @@
+# Elasticsearch and its configuration container
+elasticsearch-conf:
+  image: camptocamp/elasticsearch-conf:0.0.2
+  labels: 
+    io.rancher.container.hostname_override: container_name
+    io.rancher.container.start_once: 'true'
+    io.rancher.container.pull_image: always
+  volumes:
+    - /usr/share/docker-elasticsearch/config
+    - /opt/rancher/bin
+elasticsearch:
+  image: camptocamp/elasticsearch:5.0.0-alpha
+  labels:
+    io.rancher.container.hostname_override: container_name
+    io.rancher.sidekicks: elasticsearch-conf
+  ulmits:
+    memlock: 
+      soft: -1
+      hard: -1
+  volumes_from:
+    - elasticsearch-conf
+  command: /opt/rancher/bin/run.sh
+
+
+# Kibana (no need for a conf as it can be configured through environment variables)
+kibana:
+  image: camptocamp/kibana:5.0.0-alpha
+  links:
+    - elasticsearch
+  environment:
+    ELASTICSEARCH_URL: http://elasticsearch:9200
+
+# nginx for basic auth
+nginx-conf:
+  image: camptocamp/elk-nginx-conf:0.0.1
+  labels:
+    io.rancher.container.hostname_override: container_name
+    io.rancher.container.start_once: 'true'
+    io.rancher.container.pull_image: always
+  environment:
+    ELASTICSEARCH_URL: http://elasticsearch:9200
+    KIBANA_URL: http://kibana:5601
+  volumes_from: 
+    - nginx
+nginx:
+  image: nginx
+  labels:
+    io.rancher.container.hostname_override: container_name
+    io.rancher.sidekicks: nginx-conf
+  links:
+    - elasticsearch
+    - kibana
+  ports:
+    - "9200:9200"
+    - "5601:5601"
+  volumes:
+    - /etc/nginx
+  command: sh -c "while [ ! -f '/etc/nginx/docker-nginx.conf' ]; do sleep 2; done; exec nginx -c /etc/nginx/docker-nginx.conf -g 'daemon off;'"
+
