@@ -20,7 +20,7 @@ elasticsearch:
       hard: -1
   volumes:
     - /usr/share/docker-elasticsearch/config
-  command: sh -c "while [ ! -f '/usr/share/docker-elasticsearch/config/elasticsearch.yml' ]; do sleep 2; done; exec /docker-entrypoint.sh elasticsearch -E es.path.conf=/usr/share/docker-elasticsearch/config/ -E es.path.scripts=/usr/share/elasticsearch/config/scripts"
+  command: sh -c "mkdir /usr/share/docker-elasticsearch/config/scripts; while [ ! -f '/usr/share/docker-elasticsearch/config/elasticsearch.yml' ]; do sleep 2; done; exec /docker-entrypoint.sh elasticsearch -E es.path.conf=/usr/share/docker-elasticsearch/config/"
 
 # Kibana (no need for a conf as it can be configured through environment variables)
 kibana:
