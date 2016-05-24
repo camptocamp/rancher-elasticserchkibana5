@@ -1,3 +1,0 @@
-[template]
-src = "script.tmpl"
-dest = "/usr/share/docker-elasticsearch/config/scripts/script_exist.yml"
